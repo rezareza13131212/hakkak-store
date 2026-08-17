@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Hakkak Store</string>
+    <string name="email">ایمیل</string>
+    <string name="password">پسورد</string>
+    <string name="login">ورود</string>
+    <string name="register">ثبت‌نام</string>
+    <string name="my_orders">سفارش‌های من</string>
+    <string name="buy">خرید</string>
+    <string name="customer_name">نام مشتری</string>
+    <string name="customer_phone">شماره تماس</string>
+    <string name="pick_receipt">انتخاب عکس رسید</string>
+    <string name="submit_order">ثبت سفارش</string>
+    <string name="manage_products">مدیریت کالاها</string>
+    <string name="review">بررسی</string>
+    <string name="receipt_image">عکس رسید</string>
+    <string name="panel_info_to_send">اطلاعاتی که برای مشتری ارسال می‌شود</string>
+    <string name="panel_address">آدرس پنل</string>
+    <string name="username">یوزرنیم</string>
+    <string name="approve">تایید</string>
+    <string name="reject">رد</string>
+    <string name="product_title_hint">نام کالا</string>
+    <string name="product_desc_hint">توضیحات</string>
+    <string name="product_price_hint">قیمت (تومان)</string>
+    <string name="add_product">افزودن کالا</string>
+</resources>
