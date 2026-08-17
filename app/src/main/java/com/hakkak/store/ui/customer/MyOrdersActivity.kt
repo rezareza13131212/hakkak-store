@@ -6,8 +6,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ListenerRegistration
 import com.hakkak.store.R
 import com.hakkak.store.model.Order
 import com.hakkak.store.model.OrderStatus
@@ -15,7 +13,7 @@ import com.hakkak.store.repository.StoreRepository
 
 class MyOrdersActivity : AppCompatActivity() {
 
-    private var registration: ListenerRegistration? = null
+    private var registration: AutoCloseable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,14 +22,13 @@ class MyOrdersActivity : AppCompatActivity() {
         val recycler = findViewById<RecyclerView>(R.id.recyclerMyOrders)
         recycler.layoutManager = LinearLayoutManager(this)
 
-        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
-        registration = StoreRepository.listenMyOrders(uid) { orders ->
+        registration = StoreRepository.listenMyOrders("uid") { orders ->
             recycler.adapter = MyOrderAdapter(orders)
         }
     }
 
     override fun onDestroy() {
-        registration?.remove()
+        registration?.close()
         super.onDestroy()
     }
 }
@@ -57,12 +54,12 @@ class MyOrderAdapter(private val items: List<Order>) :
         holder.status.text = when (o.status) {
             OrderStatus.PENDING -> "در انتظار تایید"
             OrderStatus.APPROVED -> "تایید شده ✅"
-            OrderStatus.REJECTED -> "رد شده ❌ ${o.rejectionReason}"
+            OrderStatus.REJECTED -> "رد شده ❌"
         }
         if (o.status == OrderStatus.APPROVED) {
             holder.credentials.visibility = View.VISIBLE
             holder.credentials.text =
-                "آدرس پنل: ${o.panelAddress}\nیوزرنیم: ${o.panelUsername}\nپسورد: ${o.panelPassword}"
+                "آدرس: ${o.panelAddress}\nیوزر: ${o.panelUsername}\nپسورد: ${o.panelPassword}"
         } else {
             holder.credentials.visibility = View.GONE
         }
