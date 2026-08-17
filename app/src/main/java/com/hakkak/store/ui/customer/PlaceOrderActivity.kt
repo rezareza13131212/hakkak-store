@@ -36,4 +36,25 @@ class PlaceOrderActivity : AppCompatActivity() {
             pickImageLauncher.launch("image/*")
         }
 
-        findViewById
+        findViewById<Button>(R.id.btnSubmitOrder).setOnClickListener {
+            val uri = receiptUri
+            if (uri == null) {
+                Toast.makeText(this, "لطفاً عکس رسید را انتخاب کنید", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            val name = findViewById<EditText>(R.id.editCustomerName).text.toString().trim()
+            val phone = findViewById<EditText>(R.id.editCustomerPhone).text.toString().trim()
+            if (name.isEmpty() || phone.isEmpty()) {
+                Toast.makeText(this, "نام و شماره تماس را وارد کنید", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            val product = Product(id = productId, title = productTitle, priceToman = productPrice)
+            StoreRepository.submitOrder(product, "uid", name, phone, uri) { success, _ ->
+                if (success) {
+                    Toast.makeText(this, "سفارش ثبت شد", Toast.LENGTH_LONG).show()
+                    finish()
+                }
+            }
+        }
+    }
+}
